@@ -32,7 +32,8 @@
 		before				: false,
 		onComplete			: false,
 		includepages		: false,
-		filterfields		: false
+		filterfields		: false,
+		lunrUse			: null,
 	};
 	var prettyDate = function(date) {
 		var d = new Date(date);
@@ -57,9 +58,11 @@
 			this.onComplete			= opts.onComplete;
 			this.includepages		= opts.includepages;
 			this.filterfields		= opts.filterfields;
+			this.lunrUse			= opts.lunrUse;
 
 			//This is where we'll build the index for later searching. It's not a big deal to build it on every load as it takes almost no space without data
 			this.index = lunr(function () {
+				if (this.lunrUse) { this.use(this.lunrUse); }
 				this.field('title', {boost: 10})
 				this.field('description')
 				this.field('link')
